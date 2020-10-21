@@ -61,49 +61,57 @@ class App extends React.Component{
       id: 1,
 	    name: "Marte",
 	    value: "R$ 56.000.000,00",
-	    imageUrl: marte,
+      imageUrl: marte,
+      onCart: false
     },
     {
       id: 2,
 	    name: "Lua",
 	    value: "R$10.000.000,00",
-	    imageUrl: lua,
+      imageUrl: lua,
+      onCart: false
     },
     {
       id: 3,
 	    name: "Jupiter",
 	    value: "R$78.000.000,00",
-	    imageUrl: Jupiter,
+      imageUrl: Jupiter,
+      onCart: false
     },
     {
       id: 4,
 	    name: "Netuno",
 	    value: "R$180.000.000,00",
-	    imageUrl: Netuno,
+      imageUrl: Netuno,
+      onCart: false
     },
     {
       id: 5,
 	    name: "Plutão",
 	    value: "R$220.000.000,00",
-	    imageUrl: Plutao,
+      imageUrl: Plutao,
+      onCart: false
     },
     {
       id: 6,
 	    name: "Venus",
 	    value: "R$67.000.000,00",
-	    imageUrl: Venus,
+      imageUrl: Venus,
+      onCart: false
     },
     {
       id: 7,
 	    name: "Kepler 186f",
 	    value: "R$1.000.000.000,00",
-	    imageUrl: Kepler,
+      imageUrl: Kepler,
+      onCart: false
     },
     {
       id: 8,
 	    name: "Viagem em torno do sol",
 	    value: "R$2.000.000.000,00",
-	    imageUrl: Sol,
+      imageUrl: Sol,
+      onCart: false
     },
   ]
 }
