@@ -195,7 +195,7 @@ class App extends React.Component{
         </TripsContainer>
         <CartButton><CartImg src = {Buy} /></CartButton>
         <div>
-          <h2>Carrinho:</h2>
+          <h2>Carrinhos:</h2>
           {cartList}
         </div>
       </div>
