@@ -27,19 +27,6 @@ class Filter extends React.Component {
     //     product: ""
     // }
 
-    onChangeInputMinValue = (event) => {
-        this.setState({ minValue: event.target.value});
-        console.log(this.props.minValue)
-    };
-
-
-    onChangeInputMaxValue = (event) => {
-        this.setState({ maxValue: event.target.value});
-    };
-
-    onChangeInputProduct = (event) => {
-        this.setState({ product: event.target.value});
-    };
 
 
     render() {
@@ -49,13 +36,13 @@ class Filter extends React.Component {
                 <h3>Filtros:</h3>
                 
                 <label>Valor Mínimo:</label>
-                <input value={this.props.minValue} onChange={this.onChangeInputMinValue}/>
+                <input value={this.props.minValue} onChange={this.props.changeMinValue}/>
                 
                 <label>Valor Máximo:</label>
-                <input value={this.props.MaxValue} onChange={this.onChangeInputMaxValue}/>
+                <input value={this.props.maxValue} onChange={this.props.changeMaxValue}/>
 
                 <label>Buscar Produto</label>
-                <input value={this.props.searchProduct} onChange={this.onChangeInputProduct}/>
+                <input value={this.props.product} onChange={this.props.changeProduct}/>
             </InputStyle>
         )
     }

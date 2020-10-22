@@ -91,78 +91,78 @@ const CartImg = styled.img`
   width: 80px;
   height: 80px;
 `
+const initialTrips = [
+  {
+    id: 1,
+    name: "Marte",
+    value: 560,
+    imageUrl: marte,
+    onCart: 0
+  },
+  {
+    id: 2,
+    name: "Lua",
+    value: 100,
+    imageUrl: lua,
+    onCart: 0
+  },
+  {
+    id: 3,
+    name: "Jupiter",
+    value: 780,
+    imageUrl: Jupiter,
+    onCart: 0
+  },
+  {
+    id: 4,
+    name: "Netuno",
+    value: 180,
+    imageUrl: Netuno,
+    onCart: 0
+  },
+  {
+    id: 5,
+    name: "Plutão",
+    value: 220,
+    imageUrl: Plutao,
+    onCart: 0
+  },
+  {
+    id: 6,
+    name: "Venus",
+    value: 670,
+    imageUrl: Venus,
+    onCart: 0
+  },
+  {
+    id: 7,
+    name: "Kepler 186f",
+    value: 1000,
+    imageUrl: Kepler,
+    onCart: 0
+  },
+  {
+    id: 8,
+    name: "Viagem em torno do sol",
+    value: 2000,
+    imageUrl: Sol,
+    onCart: 0
+  },
+]
 
 class App extends React.Component{
   state = {
-  trips: [
-    {
-      id: 1,
-	    name: "Marte",
-	    value: 56000000,
-      imageUrl: marte,
-      onCart: 0
-    },
-    {
-      id: 2,
-	    name: "Lua",
-	    value: 10000000,
-      imageUrl: lua,
-      onCart: 0
-    },
-    {
-      id: 3,
-	    name: "Jupiter",
-	    value: 78000000,
-      imageUrl: Jupiter,
-      onCart: 0
-    },
-    {
-      id: 4,
-	    name: "Netuno",
-	    value: 180000000,
-      imageUrl: Netuno,
-      onCart: 0
-    },
-    {
-      id: 5,
-	    name: "Plutão",
-	    value: 220000000,
-      imageUrl: Plutao,
-      onCart: 0
-    },
-    {
-      id: 6,
-	    name: "Venus",
-	    value: 67000000,
-      imageUrl: Venus,
-      onCart: 0
-    },
-    {
-      id: 7,
-	    name: "Kepler 186f",
-	    value: 1000000000,
-      imageUrl: Kepler,
-      onCart: 0
-    },
-    {
-      id: 8,
-	    name: "Viagem em torno do sol",
-	    value: 200000000,
-      imageUrl: Sol,
-      onCart: 0
-    },
-  ],
+  trips: initialTrips,
   cartList: [],
-  filter: [
-    {
-      minValue: "",
-      maxValue: "",
-      product: ""
-    }
-  ],
+  
+  minValue: "",
+  maxValue: "",
+  product: "",
+  
   sort: "",
 }
   
+
   onClickCartButton = (add) => {
     const newProductsList = this.state.trips.map((trip) => {
       if (trip.id === add.id) {
@@ -184,27 +184,49 @@ class App extends React.Component{
       } else {
         return false
       }
-
     })
-    console.log(newCartList)
+
     this.setState({cartList: newCartList})
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(prevState.sort !== this.state.sort || prevState.product !== this.state.product || prevState.minValue !== this.state.minValue || prevState.maxValue !== this.state.maxValue ){
+      this.filteredList()
+    }
+    
+  }
+
   filteredList = () =>{
-    return this.state.trips
-    .filter((trip) => this.state.trip.value < this.state.filter.maxValue)
-    .filter((trip) => this.state.trip.value > this.state.filter.minValue)
-    .filter((trip) => this.state.trip.name.includes(this.trip.filter.product))
-    .sort((a , b) => this.state.sort === 'CRESCENTE' ? a.value - b.value : b.value - a.value)
+    console.log(this.state.trips)
+    const ListaFiltrada = initialTrips
+    .filter((trip) => {return(trip.value <= this.state.maxValue)})
+    .filter((trip) => {return (trip.value >= this.state.minValue)})
+    .filter((trip) => {return (trip.name.includes(this.state.product))})
+    .sort((a , b) => {return(this.state.sort === 'CRESCENTE' ? a.value - b.value : b.value - a.value)})
+    
+    this.setState({trips : ListaFiltrada})
   }
 
   onChangeSort = (event) => {
     this.setState({sort: event.target.value})
   }
 
+  onChangeInputMinValue = (event) => {
+    this.setState({ minValue: event.target.value});
+};
+
+onChangeInputMaxValue = (event) => {
+    this.setState({ maxValue: event.target.value});
+};
+
+onChangeInputProduct = (event) => {
+    this.setState({ product: event.target.value});
+};
+
+
 
   render (){
-    console.log(this.state)
+  
     const productsList = this.state.trips.map((trip) => {
       
       return (
@@ -243,9 +265,12 @@ class App extends React.Component{
         <PageContainer>
 
           <Filter 
-            minValue = {this.state.filter.minValue}
-            maxValue = {this.state.filter.maxValue}
-            product = {this.state.filter.product}
+            minValue = {this.state.minValue}
+              changeMinValue = {this.onChangeInputMinValue}
+            maxValue = {this.state.maxValue}
+              changeMaxValue = {this.onChangeInputMaxValue}
+            product = {this.state.product}
+              changeProduct = {this.onChangeInputProduct}
           />
         
           <TripsContainer>
