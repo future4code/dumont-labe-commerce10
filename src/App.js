@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import Produtos from './components/produtos';
+import Produtos from './components/Products';
 import styled from 'styled-components'
 import marte from './imgs/marte.jpg';
 import lua from './imgs/lua.jpg'
@@ -12,8 +12,8 @@ import Kepler from './imgs/kepler.jpg'
 import Sol from './imgs/sol.jpeg'
 import Buy from './imgs/carrinho.jpg'
 import Logo from './imgs/logo.png'
-import Cart from './components/carrinho';
-
+import Cart from './components/Cart';
+import Filter from './components/Filter';
 
 const Images = styled.img`
   width: 400px;
@@ -37,10 +37,16 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 20px;
+  margin-left: 10px;
+  margin-right: 30px;
 `
 
 const SelectStyle = styled.select`
   height: 20px;
+`
+
+const PageContainer = styled.div`
+  display: flex;
 `
 
 const TripsContainer = styled.div`
@@ -48,7 +54,7 @@ const TripsContainer = styled.div`
   flex-wrap: wrap;
 `
 
-const Container = styled.div`
+const ProductsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -65,7 +71,6 @@ const ButtonStyle = styled.button`
   border: 0;
   color: white;  
 `
-
 
 const CartButton = styled.button`
   background-color: white;
@@ -88,65 +93,70 @@ class App extends React.Component{
     {
       id: 1,
 	    name: "Marte",
-	    value: "R$ 56.000.000,00",
+	    value: 56000000,
       imageUrl: marte,
       onCart: 0
     },
     {
       id: 2,
 	    name: "Lua",
-	    value: "R$10.000.000,00",
+	    value: 10000000,
       imageUrl: lua,
       onCart: 0
     },
     {
       id: 3,
 	    name: "Jupiter",
-	    value: "R$78.000.000,00",
+	    value: 78000000,
       imageUrl: Jupiter,
       onCart: 0
     },
     {
       id: 4,
 	    name: "Netuno",
-	    value: "R$180.000.000,00",
+	    value: 180000000,
       imageUrl: Netuno,
       onCart: 0
     },
     {
       id: 5,
 	    name: "Plutão",
-	    value: "R$220.000.000,00",
+	    value: 220000000,
       imageUrl: Plutao,
       onCart: 0
     },
     {
       id: 6,
 	    name: "Venus",
-	    value: "R$67.000.000,00",
+	    value: 67000000,
       imageUrl: Venus,
       onCart: 0
     },
     {
       id: 7,
 	    name: "Kepler 186f",
-	    value: "R$1.000.000.000,00",
+	    value: 1000000000,
       imageUrl: Kepler,
       onCart: 0
     },
     {
       id: 8,
 	    name: "Viagem em torno do sol",
-	    value: "R$2.000.000.000,00",
+	    value: 200000000,
       imageUrl: Sol,
       onCart: 0
     },
   ],
-  cartList: []
+  cartList: [],
+  filter: [
+    {
+      minValue: "",
+        maxValue: "",
+        product: ""
+    }
+  ]
 }
-
   
-
   onClickCartButton = (add) => {
     const newProductsList = this.state.trips.map((trip) => {
       if (trip.id === add.id) {
@@ -162,28 +172,18 @@ class App extends React.Component{
     
     this.setState({trips: newProductsList})
     
-    const newCartList = this.state.trips.filter((trip) => {
+    const newCartList = newProductsList.filter((trip) => {
       if (trip.onCart !== 0){
         return true
       } else {
         return false
       }
+
     })
     console.log(newCartList)
     this.setState({cartList: newCartList})
   }
 
-  // updateCartList = () => {
-  //   const newCartList = this.state.trips.filter((trip) => {
-  //     if (trip.onCart !== 0){
-  //       return true
-  //     } else {
-  //       return false
-  //     }
-  //   })
-  //   console.log(newCartList)
-  //   this.setState({cartList: newCartList})
-  // }
 
   render (){
     console.log(this.state)
@@ -191,12 +191,12 @@ class App extends React.Component{
       
       return (
         <div>
-          <Container>
+          <ProductsContainer>
             <Images src = {trip.imageUrl}  /> 
             <p>{trip.name}</p>
-            <p>{trip.value}</p>
+            <p>R$ {trip.value}</p>
             <ButtonStyle onClick={() => this.onClickCartButton(trip)}>Adicionar ao Carrinho</ButtonStyle>
-          </Container>
+          </ProductsContainer>
         </div>
       ) 
     })
@@ -212,7 +212,7 @@ class App extends React.Component{
       <div>
         <TitleContainer>
           <Title src = {Logo} />
-          <p> LabEcommerce </p>
+          <p> LabEcommerce</p>
         </TitleContainer>
         <Header>
           <p>Quantidade de Viagens: {this.state.trips.length}</p>
@@ -221,12 +221,24 @@ class App extends React.Component{
             <option value ="decrescente">Preço: Decrescente</option>
           </SelectStyle>
         </Header>
+
+        <PageContainer>
+
+        <Filter 
+          minValue = {this.state.filter.minValue}
+          maxValue = {this.state.filter.maxValue}
+          product = {this.state.filter.product}
+        />
+        
         <TripsContainer>
           {productsList}
         </TripsContainer>
+        
+        </PageContainer>
+
         <CartButton><CartImg src = {Buy} /></CartButton>
         <div>
-          <h2>Carrinhos:</h2>
+          <h2>Carrinho:</h2>
           {cartList}
         </div>
       </div>

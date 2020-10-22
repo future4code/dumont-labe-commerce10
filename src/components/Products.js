@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Produtos extends React.Component {
+class Products extends React.Component {
 
     render (){
         return(
@@ -14,4 +14,4 @@ class Produtos extends React.Component {
     }
 }
 
-export default Produtos
+export default Products
