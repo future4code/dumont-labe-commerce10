@@ -72,6 +72,11 @@ const ButtonStyle = styled.button`
   color: white;  
 `
 
+const CartContainer = styled.div`
+  background-color: #F2A950;
+  height: 400px;
+  margin-right: 20px;
+`
 const CartButton = styled.button`
   background-color: white;
   border-radius: 50%;
@@ -151,10 +156,11 @@ class App extends React.Component{
   filter: [
     {
       minValue: "",
-        maxValue: "",
-        product: ""
+      maxValue: "",
+      product: ""
     }
-  ]
+  ],
+  sort: "",
 }
   
   onClickCartButton = (add) => {
@@ -184,6 +190,18 @@ class App extends React.Component{
     this.setState({cartList: newCartList})
   }
 
+  filteredList = () =>{
+    return this.state.trips
+    .filter((trip) => this.state.trip.value < this.state.filter.maxValue)
+    .filter((trip) => this.state.trip.value > this.state.filter.minValue)
+    .filter((trip) => this.state.trip.name.includes(this.trip.filter.product))
+    .sort((a , b) => this.state.sort === 'CRESCENTE' ? a.value - b.value : b.value - a.value)
+  }
+
+  onChangeSort = (event) => {
+    this.setState({sort: event.target.value})
+  }
+
 
   render (){
     console.log(this.state)
@@ -194,7 +212,7 @@ class App extends React.Component{
           <ProductsContainer>
             <Images src = {trip.imageUrl}  /> 
             <p>{trip.name}</p>
-            <p>R$ {trip.value}</p>
+            <p>R$ {trip.value},00</p>
             <ButtonStyle onClick={() => this.onClickCartButton(trip)}>Adicionar ao Carrinho</ButtonStyle>
           </ProductsContainer>
         </div>
@@ -216,31 +234,33 @@ class App extends React.Component{
         </TitleContainer>
         <Header>
           <p>Quantidade de Viagens: {this.state.trips.length}</p>
-          <SelectStyle>
-            <option value ="crescente">Preço: Crescente</option>
-            <option value ="decrescente">Preço: Decrescente</option>
+          <SelectStyle value = {this.state.sort} onChange = {this.onChangeSort}>
+            <option value ={'CRESCENTE'} onChange = {this.onChangeSort}>Preço: Crescente</option>
+            <option value ={'DECRESCENTE'} onChange = {this.onChangeSort}>Preço: Decrescente</option>
           </SelectStyle>
         </Header>
 
         <PageContainer>
 
-        <Filter 
-          minValue = {this.state.filter.minValue}
-          maxValue = {this.state.filter.maxValue}
-          product = {this.state.filter.product}
-        />
+          <Filter 
+            minValue = {this.state.filter.minValue}
+            maxValue = {this.state.filter.maxValue}
+            product = {this.state.filter.product}
+          />
         
-        <TripsContainer>
-          {productsList}
-        </TripsContainer>
-        
+          <TripsContainer>
+            {productsList}
+          </TripsContainer>
+
+          <CartContainer>
+            <h2>Carrinho:</h2>
+            {cartList}
+          </CartContainer>
+
         </PageContainer>
 
         <CartButton><CartImg src = {Buy} /></CartButton>
-        <div>
-          <h2>Carrinho:</h2>
-          {cartList}
-        </div>
+        
       </div>
     );
   }

@@ -8,7 +8,6 @@ class Products extends React.Component {
                 <img src = {this.props.imagem} />
                 <p>{this.props.nome}</p>
                 <p>{this.props.preco}</p>
-                
             </div>
         )
     }
