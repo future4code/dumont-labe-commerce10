@@ -1,4 +1,13 @@
 import React from 'react';
+import styled from 'styled-components'
+
+const InputStyle = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+`
+
 
     // TODO
     // Função para limpar os filtros
@@ -12,15 +21,17 @@ import React from 'react';
     
 class Filter extends React.Component {
 
-    state = {
-        minValue: "",
-        maxValue: "",
-        product: ""
-    }
+    // state = {
+    //     minValue: "",
+    //     maxValue: "",
+    //     product: ""
+    // }
 
     onChangeInputMinValue = (event) => {
         this.setState({ minValue: event.target.value});
+        console.log(this.props.minValue)
     };
+
 
     onChangeInputMaxValue = (event) => {
         this.setState({ maxValue: event.target.value});
@@ -30,21 +41,22 @@ class Filter extends React.Component {
         this.setState({ product: event.target.value});
     };
 
+
     render() {
         
         return (
-            <div>
-                <h1>Filtros:</h1>
+            <InputStyle>
+                <h3>Filtros:</h3>
                 
                 <label>Valor Mínimo:</label>
-                <input value={this.state.minValue} onChange={this.onChangeInputMinValue}/>
-
+                <input value={this.props.minValue} onChange={this.onChangeInputMinValue}/>
+                
                 <label>Valor Máximo:</label>
-                <input value={this.state.MaxValue} onChange={this.onChangeInputMaxValue}/>
+                <input value={this.props.MaxValue} onChange={this.onChangeInputMaxValue}/>
 
                 <label>Buscar Produto</label>
-                <input value={this.state.searchProduct} onChange={this.onChangeInputProduct}/>
-            </div>
+                <input value={this.props.searchProduct} onChange={this.onChangeInputProduct}/>
+            </InputStyle>
         )
     }
 }
