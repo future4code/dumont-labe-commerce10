@@ -11,10 +11,34 @@ import Venus from './imgs/venus.png'
 import Kepler from './imgs/kepler.jpg'
 import Sol from './imgs/sol.jpeg'
 import Buy from './imgs/carrinho.jpg'
+import Logo from './imgs/logo.png'
 
 const Images = styled.img`
   width: 400px;
   height: 400px;
+`
+
+const Title = styled.img`
+  width: 80px;
+  height: 80px;
+`
+
+const TitleContainer = styled.div`
+  background-color: #F27405;
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+  position: sticky;
+`
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+`
+
+const SelectStyle = styled.select`
+  height: 20px;
 `
 
 const TripsContainer = styled.div`
@@ -23,22 +47,23 @@ const TripsContainer = styled.div`
 `
 
 const Container = styled.div`
-  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  background-color: #F2A950;
   padding: 10px;
   margin: 5px;
 `
 
 const ButtonStyle = styled.button`
-  width: 400px;
+  width: 350px;
+  height: 50px;
   margin: 20px auto;
-  background-color: black;
+  background-color: #F27405;
+  border: 0;
   color: white;  
 `
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  `
 
 const CartButton = styled.button`
   background-color: white;
@@ -49,6 +74,7 @@ const CartButton = styled.button`
   bottom: 10px;
   left: 10px;
 `
+
 const CartImg = styled.img`
   width: 80px;
   height: 80px;
@@ -130,12 +156,16 @@ class App extends React.Component{
     })
     return (
       <div>
+        <TitleContainer>
+          <Title src = {Logo} />
+          <p> LabEcommerce </p>
+        </TitleContainer>
         <Header>
           <p>Quantidade de Viagens: {this.state.trips.length}</p>
-          <select>
+          <SelectStyle>
             <option value ="crescente">Preço: Crescente</option>
             <option value ="decrescente">Preço: Decrescente</option>
-          </select>
+          </SelectStyle>
         </Header>
         <TripsContainer>
           {productsList}
