@@ -12,6 +12,8 @@ import Kepler from './imgs/kepler.jpg'
 import Sol from './imgs/sol.jpeg'
 import Buy from './imgs/carrinho.jpg'
 import Logo from './imgs/logo.png'
+import Cart from './components/carrinho';
+
 
 const Images = styled.img`
   width: 400px;
@@ -88,71 +90,123 @@ class App extends React.Component{
 	    name: "Marte",
 	    value: "R$ 56.000.000,00",
       imageUrl: marte,
-      onCart: false
+      onCart: 0
     },
     {
       id: 2,
 	    name: "Lua",
 	    value: "R$10.000.000,00",
       imageUrl: lua,
-      onCart: false
+      onCart: 0
     },
     {
       id: 3,
 	    name: "Jupiter",
 	    value: "R$78.000.000,00",
       imageUrl: Jupiter,
-      onCart: false
+      onCart: 0
     },
     {
       id: 4,
 	    name: "Netuno",
 	    value: "R$180.000.000,00",
       imageUrl: Netuno,
-      onCart: false
+      onCart: 0
     },
     {
       id: 5,
 	    name: "Plutão",
 	    value: "R$220.000.000,00",
       imageUrl: Plutao,
-      onCart: false
+      onCart: 0
     },
     {
       id: 6,
 	    name: "Venus",
 	    value: "R$67.000.000,00",
       imageUrl: Venus,
-      onCart: false
+      onCart: 0
     },
     {
       id: 7,
 	    name: "Kepler 186f",
 	    value: "R$1.000.000.000,00",
       imageUrl: Kepler,
-      onCart: false
+      onCart: 0
     },
     {
       id: 8,
 	    name: "Viagem em torno do sol",
 	    value: "R$2.000.000.000,00",
       imageUrl: Sol,
-      onCart: false
+      onCart: 0
     },
-  ]
+  ],
+  cartList: []
 }
+
+  
+
+  onClickCartButton = (add) => {
+    const newProductsList = this.state.trips.map((trip) => {
+      if (trip.id === add.id) {
+        const newOnCart = {
+          ...trip,
+          onCart: trip.onCart+1
+        }
+        return newOnCart 
+      } else {
+        return trip
+      }
+    })
+    
+    this.setState({trips: newProductsList})
+    
+    const newCartList = this.state.trips.filter((trip) => {
+      if (trip.onCart !== 0){
+        return true
+      } else {
+        return false
+      }
+    })
+    console.log(newCartList)
+    this.setState({cartList: newCartList})
+  }
+
+  // updateCartList = () => {
+  //   const newCartList = this.state.trips.filter((trip) => {
+  //     if (trip.onCart !== 0){
+  //       return true
+  //     } else {
+  //       return false
+  //     }
+  //   })
+  //   console.log(newCartList)
+  //   this.setState({cartList: newCartList})
+  // }
+
   render (){
+    console.log(this.state)
     const productsList = this.state.trips.map((trip) => {
+      
       return (
         <div>
           <Container>
             <Images src = {trip.imageUrl}  /> 
             <p>{trip.name}</p>
             <p>{trip.value}</p>
-            <ButtonStyle>Adicionar ao Carrinho</ButtonStyle>
+            <ButtonStyle onClick={() => this.onClickCartButton(trip)}>Adicionar ao Carrinho</ButtonStyle>
           </Container>
         </div>
       ) 
+    })
+
+    const cartList = this.state.cartList.map((trip) => {
+      return (
+        <div>
+          <Cart onCart = {trip.onCart} name = {trip.name}/>
+        </div>
+      )
     })
     return (
       <div>
@@ -171,6 +225,10 @@ class App extends React.Component{
           {productsList}
         </TripsContainer>
         <CartButton><CartImg src = {Buy} /></CartButton>
+        <div>
+          <h2>Carrinhos:</h2>
+          {cartList}
+        </div>
       </div>
     );
   }
