@@ -16,8 +16,8 @@ import Cart from './components/Cart';
 import Filter from './components/Filter';
 
 const Images = styled.img`
-  width: 400px;
-  height: 400px;
+  width: 350px;
+  height: 350px;
 `
 
 const Title = styled.img`
@@ -76,6 +76,7 @@ const CartContainer = styled.div`
   background-color: #F2A950;
   height: 400px;
   margin-right: 20px;
+  width: 400px;
 `
 const CartButton = styled.button`
   background-color: white;
@@ -154,7 +155,7 @@ class App extends React.Component{
   state = {
   trips: initialTrips,
   cartList: [],
-  
+
   minValue: "",
   maxValue: "",
   product: "",
@@ -186,6 +187,33 @@ class App extends React.Component{
       }
     })
 
+    this.setState({cartList: newCartList})
+  }
+
+  onRemoveCartButton = (add) => {
+    const newProductsList = this.state.trips.map((trip) => {
+      if (trip.id === add.id) {
+        const newOnCart = {
+          ...trip,
+          onCart: trip.onCart-1
+        }
+        return newOnCart 
+      } else {
+        return trip
+      }
+    })
+    
+    this.setState({trips: newProductsList})
+    
+    const newCartList = newProductsList.filter((trip) => {
+      if (trip.onCart !== 0){
+        return true
+      } else {
+        return false
+      }
+
+    })
+    console.log(newCartList)
     this.setState({cartList: newCartList})
   }
 
@@ -241,13 +269,13 @@ onChangeInputProduct = (event) => {
       ) 
     })
 
-    const cartList = this.state.cartList.map((trip) => {
-      return (
-        <div>
-          <Cart onCart = {trip.onCart} name = {trip.name}/>
-        </div>
-      )
-    })
+    // const cartList = this.state.cartList.map((trip) => {
+    //   return (
+    //     <div>
+    //       <Cart onCart = {trip.onCart} name = {trip.name}/>
+    //     </div>
+    //   )
+    // })
     return (
       <div>
         <TitleContainer>
@@ -278,8 +306,11 @@ onChangeInputProduct = (event) => {
           </TripsContainer>
 
           <CartContainer>
-            <h2>Carrinho:</h2>
-            {cartList}
+            {/* <h2>Carrinho:</h2>
+            {cartList} */}
+            <Cart cartList = {this.state.cartList}
+                  onClickCartButton={this.onClickCartButton}
+                  onRemoveCartButton={this.onRemoveCartButton}/>
           </CartContainer>
 
         </PageContainer>
