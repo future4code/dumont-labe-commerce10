@@ -73,8 +73,11 @@ const ButtonStyle = styled.button`
 `
 
 const CartContainer = styled.div`
-  background-color: #F2A950;
+  background-color: gray;
   height: 400px;
+  width: 160px;
+  position: fixed;
+  margin-left: 89vw;
   margin-right: 20px;
   width: 400px;
 `
@@ -221,7 +224,6 @@ class App extends React.Component{
     if(prevState.sort !== this.state.sort || prevState.product !== this.state.product || prevState.minValue !== this.state.minValue || prevState.maxValue !== this.state.maxValue ){
       this.filteredList()
     }
-    
   }
 
   filteredList = () =>{
