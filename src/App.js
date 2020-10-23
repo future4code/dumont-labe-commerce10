@@ -23,15 +23,17 @@ const Images = styled.img`
 const Title = styled.img`
   width: 80px;
   height: 80px;
+  margin-top:0;
+  margin-right: 15px;
 `
 
 const TitleContainer = styled.div`
   background-color: #F27405;
   display: flex;
-  align-items: center;
   font-size: 30px;
   position: sticky;
 `
+
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -47,6 +49,10 @@ const SelectStyle = styled.select`
 
 const PageContainer = styled.div`
   display: flex;
+`
+
+const HomeContainer = styled.div`
+  max-width: 70vw;
 `
 
 const TripsContainer = styled.div`
@@ -73,28 +79,13 @@ const ButtonStyle = styled.button`
 `
 
 const CartContainer = styled.div`
-  background-color: gray;
-  height: 400px;
-  width: 160px;
+  background-color: #d5d6d8;
+  margin-top: 20px;
+  width: 280px;
   position: fixed;
-  margin-left: 89vw;
-  margin-right: 20px;
-  width: 400px;
-`
-const CartButton = styled.button`
-  background-color: white;
-  border-radius: 50%;
-  width: 130px;
-  height: 130px;
-  position: sticky;
-  bottom: 10px;
-  left: 10px;
-`
+  margin-left: 80vw; 
+  `
 
-const CartImg = styled.img`
-  width: 80px;
-  height: 80px;
-`
 const initialTrips = [
   {
     id: 1,
@@ -147,7 +138,7 @@ const initialTrips = [
   },
   {
     id: 8,
-    name: "Viagem em torno do sol",
+    name: "Sol",
     value: 2000,
     imageUrl: Sol,
     onCart: 0
@@ -229,7 +220,7 @@ class App extends React.Component{
   filteredList = () =>{
     console.log(this.state.trips)
     const ListaFiltrada = initialTrips
-    .filter((trip) => {return(trip.value <= this.state.maxValue)})
+    .filter((trip) => {return(trip.value <= (this.state.maxValue || Infinity))})
     .filter((trip) => {return (trip.value >= this.state.minValue)})
     .filter((trip) => {return (trip.name.includes(this.state.product))})
     .sort((a , b) => {return(this.state.sort === 'CRESCENTE' ? a.value - b.value : b.value - a.value)})
@@ -271,26 +262,12 @@ onChangeInputProduct = (event) => {
       ) 
     })
 
-    // const cartList = this.state.cartList.map((trip) => {
-    //   return (
-    //     <div>
-    //       <Cart onCart = {trip.onCart} name = {trip.name}/>
-    //     </div>
-    //   )
-    // })
     return (
       <div>
         <TitleContainer>
           <Title src = {Logo} />
           <p> LabEcommerce</p>
         </TitleContainer>
-        <Header>
-          <p>Quantidade de Viagens: {this.state.trips.length}</p>
-          <SelectStyle value = {this.state.sort} onChange = {this.onChangeSort}>
-            <option value ={'CRESCENTE'} onChange = {this.onChangeSort}>Preço: Crescente</option>
-            <option value ={'DECRESCENTE'} onChange = {this.onChangeSort}>Preço: Decrescente</option>
-          </SelectStyle>
-        </Header>
 
         <PageContainer>
 
@@ -302,14 +279,22 @@ onChangeInputProduct = (event) => {
             product = {this.state.product}
               changeProduct = {this.onChangeInputProduct}
           />
-        
-          <TripsContainer>
-            {productsList}
-          </TripsContainer>
+
+          <HomeContainer>
+            <Header>
+              <p>Quantidade de Viagens: {this.state.trips.length}</p>
+              <SelectStyle value = {this.state.sort} onChange = {this.onChangeSort}>
+                <option value ={'CRESCENTE'} onChange = {this.onChangeSort}>Preço: Crescente</option>
+                <option value ={'DECRESCENTE'} onChange = {this.onChangeSort}>Preço: Decrescente</option>
+              </SelectStyle>
+            </Header>
+
+            <TripsContainer>
+              {productsList}
+            </TripsContainer>
+          </HomeContainer>
 
           <CartContainer>
-            {/* <h2>Carrinho:</h2>
-            {cartList} */}
             <Cart cartList = {this.state.cartList}
                   onClickCartButton={this.onClickCartButton}
                   onRemoveCartButton={this.onRemoveCartButton}/>
@@ -317,7 +302,6 @@ onChangeInputProduct = (event) => {
 
         </PageContainer>
 
-        <CartButton><CartImg src = {Buy} /></CartButton>
         
       </div>
     );
