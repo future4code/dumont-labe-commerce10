@@ -174,13 +174,14 @@ class App extends React.Component{
     this.setState({trips: newProductsList})
     
     const newCartList = newProductsList.filter((trip) => {
-      if (trip.onCart !== 0){
+      if (trip.onCart > 0){
         return true
       } else {
         return false
       }
     })
 
+    
     this.setState({cartList: newCartList})
   }
 
@@ -200,7 +201,7 @@ class App extends React.Component{
     this.setState({trips: newProductsList})
     
     const newCartList = newProductsList.filter((trip) => {
-      if (trip.onCart !== 0){
+      if (trip.onCart > 0){
         return true
       } else {
         return false
@@ -214,6 +215,19 @@ class App extends React.Component{
   componentDidUpdate(prevProps, prevState, snapshot){
     if(prevState.sort !== this.state.sort || prevState.product !== this.state.product || prevState.minValue !== this.state.minValue || prevState.maxValue !== this.state.maxValue ){
       this.filteredList()
+    }
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem("cartList", JSON.stringify(this.state.cartList))
+    localStorage.setItem("productsList", JSON.stringify(this.state.trips))
+  }
+  componentDidMount() {
+    if (localStorage.getItem("cartList")){
+      this.setState({ cartList: JSON.parse(localStorage.getItem("cartList"))})
+    }
+    if (localStorage.getItem("cartList")){
+      this.setState({ trips: JSON.parse(localStorage.getItem("productsList"))})
     }
   }
 
@@ -255,7 +269,7 @@ onChangeInputProduct = (event) => {
           <ProductsContainer>
             <Images src = {trip.imageUrl}  /> 
             <p>{trip.name}</p>
-            <p>R$ {trip.value},00</p>
+            <p>{trip.value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</p>
             <ButtonStyle onClick={() => this.onClickCartButton(trip)}>Adicionar ao Carrinho</ButtonStyle>
           </ProductsContainer>
         </div>
