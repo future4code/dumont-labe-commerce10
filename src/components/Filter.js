@@ -7,6 +7,9 @@ const InputStyle = styled.div`
     margin-left: 10px;
     margin-right: 10px;
 `
+const FilterStyle = styled.label`
+    margin-top: 10px;
+`
 
 
     // TODO
@@ -35,13 +38,13 @@ class Filter extends React.Component {
             <InputStyle>
                 <h3>Filtros:</h3>
                 
-                <label>Valor Mínimo:</label>
+                <FilterStyle>Valor Mínimo:</FilterStyle>
                 <input value={this.props.minValue} onChange={this.props.changeMinValue}/>
                 
-                <label>Valor Máximo:</label>
+                <FilterStyle>Valor Máximo:</FilterStyle>
                 <input value={this.props.maxValue} onChange={this.props.changeMaxValue}/>
 
-                <label>Buscar Produto</label>
+                <FilterStyle>Buscar Produto</FilterStyle>
                 <input value={this.props.product} onChange={this.props.changeProduct}/>
             </InputStyle>
         )
