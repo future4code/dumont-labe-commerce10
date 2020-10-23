@@ -37,11 +37,11 @@ class Cart extends React.Component {
 
 
     render (){
-
+        
         const cartList = this.props.cartList.map((trip) => {
             return (
               <CartListItemsContainer>
-                <CartItens>{trip.onCart} x {trip.name} - R${trip.value},00</CartItens>
+                <CartItens>{trip.onCart} x {trip.name} - {trip.value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</CartItens>
                 <div>
                 <ButtonAddAndRemove onClick={() => this.props.onRemoveCartButton(trip)}><img src={remove} /></ButtonAddAndRemove>
                 <ButtonAddAndRemove onClick={() => this.props.onClickCartButton(trip)}><img src={add} /></ButtonAddAndRemove>
@@ -54,7 +54,7 @@ class Cart extends React.Component {
             <CartContainer>
                 <h2>Carrinho:</h2>
                 {cartList}
-                <h3>Total: R${this.getTotalValue()},00</h3>
+                <h3>Total: {this.getTotalValue().toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</h3>
             </CartContainer>
         )
     }
